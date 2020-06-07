@@ -40,6 +40,31 @@ class App extends Component {
       completed: false }).then(
       res => this.setState({ todos: [...this.state.todos, res.data]}))
   }
+  //Switch Positions of Items
+  swap = (obj, prop1, prop2) => {
+    const tmp = obj[prop1];
+    obj[prop1] = obj[prop2];
+    obj[prop2] = tmp;
+    }
+  //Move Up
+  moveUp = (id) => {
+    const itemIndex = this.state.todos.findIndex(todo => todo.id === id)
+    const array = this.state.todos
+    if (itemIndex > 0) {
+      this.swap(array, itemIndex, itemIndex - 1);
+    }
+    console.log(array)
+  }
+  //Move Down
+  moveDown = (id) => {
+    const array = this.state.todos
+    const itemIndex = this.state.todos.findIndex(todo => todo.id === id)
+    if (itemIndex < array.length - 1) {
+    this.swap(array, itemIndex, itemIndex + 1);
+  }
+
+
+  }
 
   render () {
     return (
@@ -49,7 +74,7 @@ class App extends Component {
             <Header />
             <Route exact path="/" render={props => (
               <React.Fragment>
-                <Todos todos={this.state.todos} markComplete={this.markComplete} delTodo={this.delTodo}/>
+                <Todos todos={this.state.todos} markComplete={this.markComplete} delTodo={this.delTodo} moveUp={this.moveUp} moveDown={this.moveDown}/>
                 <AddTodo addTodo={this.addTodo} />
               </React.Fragment>
               )} />
